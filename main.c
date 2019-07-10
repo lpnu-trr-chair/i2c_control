@@ -11,6 +11,7 @@
 */
 #include "project.h"
 #include <stdio.h>
+#include <string.h>
 
 
 /*******************************************************************************
@@ -54,33 +55,85 @@
     } 
 #endif /* (__GNUC__) */
 
+void print_welcome_message()
+{
+    UART_PORT_UartPutString("\r\n**********************************************************************************\r\n");
+    UART_PORT_UartPutString("If you see this text the terminal connection is configured correctly.\r\n");
+    UART_PORT_UartPutString("This program sends entered data to connected i2c device\r\n");    
+    UART_PORT_UartPutString("Enter command string in format.\r\n");
+    UART_PORT_UartPutString("<command><address><data>\r\n");
+    UART_PORT_UartPutString("Where\r\n");
+    UART_PORT_UartPutString("\t <command>: s to send data or r to receive data,\r\n");
+    UART_PORT_UartPutString("\t <address> device address - 2 hex digits,\r\n");
+    UART_PORT_UartPutString("\t <data> data to send/receive - 2 hex digits.\r\n");
+    UART_PORT_UartPutString("\r\n");
+
+}
+const char LETTER_S = 115;
+const uint32 delay_time = 1000;
+char buffer[80];
+int operation_code_received(char received_symbol)
+{
+    sprintf(buffer,"Received symbol: %c  \r\n",received_symbol);
+    UART_PORT_UartPutString(buffer);
+    return (received_symbol == LETTER_S);
+}
+int send_operation(char op_code)
+{
+    return (op_code == LETTER_S);
+}
+
+uint32 get_address()
+{
+    uint32 byte_1;
+    uint32 byte_2;
+    byte_1 = UART_PORT_UartGetByte();
+    sprintf(buffer,"Received symbol: %lx  \r\n",byte_1);
+    UART_PORT_UartPutString(buffer);
+    byte_2 = UART_PORT_UartGetByte();
+    sprintf(buffer,"Received symbol: %lx  \r\n",byte_2);
+    UART_PORT_UartPutString(buffer);
+    return (byte_1*16 + byte_2);
+}
+
+uint32 get_data()
+{
+    
+    return get_address();
+}
+
 int main(void)
 {
     char operation;
-    const char LETTER_S=115;
-    char* MY_STR = "Received char:";
+    
+    uint32 address;
+    uint8 data;   
+    
     CyGlobalIntEnable; /* Enable global interrupts. */
     UART_PORT_Start();
+    print_welcome_message();
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
-    UART_PORT_UartPutString("\r\n**********************************************************************************\r\n");
-    UART_PORT_UartPutString("This example demonstrates UART operation with printf \r\n");
-    UART_PORT_UartPutString("If you see this text the terminal connection is configured correctly.\r\n");
-    UART_PORT_UartPutString("Push button to see printf function used to print on terminal.\r\n");
-    UART_PORT_UartPutString("\r\n");
     for(;;)
     {
         operation = UART_PORT_UartGetChar();
         /* Place your application code here. */
-        if (operation == LETTER_S)
+        if (operation_code_received(operation))
         {
-        UART_PORT_UartPutString("Received character: ");
-        UART_PORT_UartPutChar(operation);
-        UART_PORT_UartPutString("\r\n");
-        //printf("Hello\r\n");
+            address = get_address();
+            if (send_operation(operation))
+            {
+                data = get_data();
+                I2C_PORT_I2CMasterWriteBuf(address,&data,1,0);
+            }
+            else
+            {
+                data = I2C_PORT_I2CMasterReadBuf(address,&data,1,0);
+                sprintf(buffer,"Received data: %x \r\n",data);
+                UART_PORT_UartPutString(buffer);
+            }        
         
-        //    printf("R");
         }
-        CyDelay(1000);
+        CyDelay(delay_time);
     }
 }
 

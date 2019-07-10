@@ -71,3 +71,5 @@ CortexM0/
 Export/
 codegentemp/
 Generated_Source/
+*.svd
+*.rpt
