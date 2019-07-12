@@ -75,8 +75,8 @@ const uint32 delay_time = 1000;
 char buffer[80];
 int operation_code_received(char received_symbol)
 {
-    sprintf(buffer,"Received symbol: %c  \r\n",received_symbol);
-    UART_PORT_UartPutString(buffer);
+    //sprintf(buffer,"Received symbol: %c  \r\n",received_symbol);
+    //UART_PORT_UartPutString(buffer);
     return (received_symbol == LETTER_SMALL_S);
 }
 int send_operation(char op_code)
@@ -115,10 +115,12 @@ int main(void)
     char operation;
     
     uint32 address;
-    uint8 data;   
+    uint8 data_1;
+    uint8 data_2;
     
     CyGlobalIntEnable; /* Enable global interrupts. */
     UART_PORT_Start();
+    I2C_PORT_Start();
     print_welcome_message();
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     for(;;)
@@ -130,13 +132,17 @@ int main(void)
             address = get_address();
             if (send_operation(operation))
             {
-                data = get_data();
-                I2C_PORT_I2CMasterWriteBuf(address,&data,1,0);
+                data_1 = get_data();
+                data_2 = get_data();
+                I2C_PORT_I2CMasterSendStart(address,0,1000);
+                I2C_PORT_I2CMasterWriteByte(data_1,1000);
+                I2C_PORT_I2CMasterWriteByte(data_2,100);
+                I2C_PORT_I2CMasterSendStop(1000);
             }
             else
             {
-                data = I2C_PORT_I2CMasterReadBuf(address,&data,1,0);
-                sprintf(buffer,"Received data: %x \r\n",data);
+                data_1 = I2C_PORT_I2CMasterReadBuf(address,&data_1,1,0);
+                sprintf(buffer,"Received data: %x \r\n",data_1);
                 UART_PORT_UartPutString(buffer);
             }        
         

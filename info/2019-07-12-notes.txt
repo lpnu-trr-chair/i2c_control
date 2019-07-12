@@ -1,0 +1,147 @@
+Devices list:  8bit  7bit
+     address:  00    00
+     address:  02    01
+     address:  04    02
+     address:  06    03
+     address:  08    04
+     address:  0A    05
+     address:  0C    06
+     address:  0E    07
+     address:  10    08
+     address:  12    09
+     address:  14    0A
+     address:  16    0B
+     address:  18    0C
+     address:  1A    0D
+     address:  1C    0E
+     address:  1E    0F
+     address:  20    10
+     address:  22    11
+     address:  24    12
+     address:  26    13
+     address:  28    14
+     address:  2A    15
+     address:  2C    16
+     address:  2E    17
+     address:  30    18
+     address:  32    19
+     address:  34    1A
+     address:  36    1B
+     address:  38    1C
+     address:  3A    1D
+     address:  3C    1E
+     address:  3E    1F
+     address:  40    20
+     address:  42    21
+     address:  44    22
+     address:  46    23
+     address:  48    24
+     address:  4A    25
+     address:  4C    26
+     address:  4E    27
+     address:  50    28
+     address:  52    29
+     address:  54    2A
+     address:  56    2B
+     address:  58    2C
+     address:  5A    2D
+     address:  5C    2E
+     address:  5E    2F
+     address:  60    30
+     address:  62    31
+     address:  64    32
+     address:  66    33
+     address:  68    34
+     address:  6A    35
+     address:  6C    36
+     address:  6E    37
+     address:  70    38
+     address:  72    39
+     address:  74    3A
+     address:  76    3B
+     address:  78    3C
+     address:  7A    3D
+     address:  7C    3E
+     address:  7E    3F
+     address:  80    40
+     address:  82    41
+     address:  84    42
+     address:  86    43
+     address:  88    44
+     address:  8A    45
+     address:  8C    46
+     address:  8E    47
+     address:  90    48
+     address:  92    49
+     address:  94    4A
+     address:  96    4B
+     address:  98    4C
+     address:  9A    4D
+     address:  9C    4E
+     address:  9E    4F
+     address:  A0    50
+     address:  A2    51
+     address:  A4    52
+     address:  A6    53
+     address:  A8    54
+     address:  AA    55
+     address:  AC    56
+     address:  AE    57
+     address:  B0    58
+     address:  B2    59
+     address:  B4    5A
+     address:  B6    5B
+     address:  B8    5C
+     address:  BA    5D
+     address:  BC    5E
+     address:  BE    5F
+     address:  C0    60
+     address:  C2    61
+     address:  C4    62
+     address:  C6    63
+     address:  C8    64
+     address:  CA    65
+     address:  CC    66
+     address:  CE    67
+     address:  D0    68
+     address:  D2    69
+     address:  D4    6A
+     address:  D6    6B
+     address:  D8    6C
+     address:  DA    6D
+     address:  DC    6E
+     address:  DE    6F
+     address:  E0    70
+     address:  E2    71
+     address:  E4    72
+     address:  E6    73
+     address:  E8    74
+     address:  EA    75
+     address:  EC    76
+     address:  EE    77
+     address:  F0    78
+     address:  F2    79
+     address:  F4    7A
+     address:  F6    7B
+     address:  F8    7C
+     address:  FA    7D
+     address:  FC    7E
+     address:  FE    7F
+
+
+s 2C+ 01- FF- p 
+s 2C+ 01- FF- p 
+s 2C+ 01- FF- p 
+Timeout of Read operation!
+s 58+ 01- FF- p 
+s 2C+ 01- 00- p 
+s 2C+ 01- 00- p 
+Timeout of Read operation!
+s 2C+ 01- 00- p 
+s 2C+ 01- 00- p 
+s 2C+ 01- FF- p 
+s 58+ 01- FF- p 
+s 2C+ 01- FF- p 
+s 2C+ 01- FF- p 
+s 2C+ 01- FF- p 
+s 2C+ 01- FF- p 
