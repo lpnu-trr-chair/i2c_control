@@ -11,6 +11,7 @@
 */
 #include "project.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -69,31 +70,38 @@ void print_welcome_message()
     UART_PORT_UartPutString("\r\n");
 
 }
-const char LETTER_S = 115;
+const char LETTER_SMALL_S = 115;
 const uint32 delay_time = 1000;
 char buffer[80];
 int operation_code_received(char received_symbol)
 {
     sprintf(buffer,"Received symbol: %c  \r\n",received_symbol);
     UART_PORT_UartPutString(buffer);
-    return (received_symbol == LETTER_S);
+    return (received_symbol == LETTER_SMALL_S);
 }
 int send_operation(char op_code)
 {
-    return (op_code == LETTER_S);
+    return (op_code == LETTER_SMALL_S);
 }
+
 
 uint32 get_address()
 {
-    uint32 byte_1;
-    uint32 byte_2;
-    byte_1 = UART_PORT_UartGetByte();
-    sprintf(buffer,"Received symbol: %lx  \r\n",byte_1);
+    char bytes[2]="00";
+    uint32 result;
+    
+    bytes[0] = UART_PORT_UartGetChar();
+    sprintf(buffer,"Received symbol: %lx  \r\n",bytes[0]);
     UART_PORT_UartPutString(buffer);
-    byte_2 = UART_PORT_UartGetByte();
-    sprintf(buffer,"Received symbol: %lx  \r\n",byte_2);
+    
+    bytes[1] = UART_PORT_UartGetChar();
+    sprintf(buffer,"Received symbol: %lx  \r\n",bytes[1]);
     UART_PORT_UartPutString(buffer);
-    return (byte_1*16 + byte_2);
+    
+    result = strtoul(bytes,NULL,16);
+    sprintf(buffer,"Converted value: %lu  \r\n",result);
+    UART_PORT_UartPutString(buffer); 
+    return result;//(byte_1*16 + byte_2);
 }
 
 uint32 get_data()
