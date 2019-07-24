@@ -110,6 +110,40 @@ uint32 get_data()
     return get_address();
 }
 
+void print_error_status(uint32 error_status)
+{
+    switch(error_status)
+    {
+        
+        case I2C_PORT_I2C_MSTR_NO_ERROR:
+            sprintf(buffer,"Absent I2C error.  \r\n");
+            break;
+        case I2C_PORT_I2C_MSTR_BUS_BUSY:
+            sprintf(buffer,"I2C error: I2C_MSTR_BUS_BUSY  \r\n");
+            break;
+        case I2C_PORT_I2C_MSTR_NOT_READY:
+            sprintf(buffer,"I2C error: I2C_MSTR_NOT_READY  \r\n");
+            break;
+        case I2C_PORT_I2C_MSTR_ERR_LB_NAK:
+            sprintf(buffer,"I2C error: I2C_MSTR_ERR_LB_NAK  \r\n");
+            break;
+        case I2C_PORT_I2C_MSTR_ERR_ARB_LOST:
+            sprintf(buffer,"I2C error: I2C_MSTR_ERR_ARB_LOST  \r\n");
+            break;
+        case I2C_PORT_I2C_MSTR_ERR_BUS_ERR:
+            sprintf(buffer,"I2C error: I2C_MSTR_ERR_BUS_ERR  \r\n");            
+            break;
+        case I2C_PORT_I2C_MSTR_ERR_ABORT_START:
+            sprintf(buffer,"I2C error: I2C_MSTR_ERR_ABORT_START  \r\n");  
+            break;
+        case I2C_PORT_I2C_MSTR_ERR_TIMEOUT:
+            sprintf(buffer,"I2C error: I2C_MSTR_ERR_TIMEOUT  \r\n");  
+            break;
+            
+    }
+    UART_PORT_UartPutString(buffer);
+}
+
 int main(void)
 {
     char operation;
@@ -117,6 +151,7 @@ int main(void)
     uint32 address;
     uint8 data_1;
     uint8 data_2;
+    uint32 err;
     
     CyGlobalIntEnable; /* Enable global interrupts. */
     UART_PORT_Start();
@@ -134,10 +169,18 @@ int main(void)
             {
                 data_1 = get_data();
                 data_2 = get_data();
-                I2C_PORT_I2CMasterSendStart(address,0,1000);
-                I2C_PORT_I2CMasterWriteByte(data_1,1000);
-                I2C_PORT_I2CMasterWriteByte(data_2,100);
-                I2C_PORT_I2CMasterSendStop(1000);
+                sprintf(buffer,"Start I2C data transfer \r\n");
+                UART_PORT_UartPutString(buffer);
+                err =I2C_PORT_I2CMasterSendStart(address,0,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterWriteByte(data_1,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterWriteByte(data_2,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterSendStop(1000);
+                print_error_status(err);
+                sprintf(buffer,"End of I2C data transfer  \r\n");
+                UART_PORT_UartPutString(buffer);
             }
             else
             {
