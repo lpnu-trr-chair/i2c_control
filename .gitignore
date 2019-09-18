@@ -65,3 +65,11 @@ dkms.conf
 *.cydsn/codegentemp        
 *.cydsn/DP8051        
 *.cydsn/Generated_Source
+# My updates for PSOC4
+*.log
+CortexM0/
+Export/
+codegentemp/
+Generated_Source/
+*.svd
+*.rpt
