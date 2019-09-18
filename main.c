@@ -66,18 +66,19 @@ void print_welcome_message()
     UART_PORT_UartPutString("Where\r\n");
     UART_PORT_UartPutString("\t <command>: s to send data or r to receive data,\r\n");
     UART_PORT_UartPutString("\t <address> device address - 2 hex digits,\r\n");
-    UART_PORT_UartPutString("\t <data> data to send/receive - 2 hex digits.\r\n");
+    UART_PORT_UartPutString("\t <data> data to send/receive - 4 hex digits.\r\n");
     UART_PORT_UartPutString("\r\n");
 
 }
 const char LETTER_SMALL_S = 115;
+const char LETTER_SMALL_R = 114;
 const uint32 delay_time = 1000;
 char buffer[80];
 int operation_code_received(char received_symbol)
 {
     //sprintf(buffer,"Received symbol: %c  \r\n",received_symbol);
     //UART_PORT_UartPutString(buffer);
-    return (received_symbol == LETTER_SMALL_S);
+    return (received_symbol == LETTER_SMALL_S)|(received_symbol == LETTER_SMALL_R);
 }
 int send_operation(char op_code)
 {
@@ -91,16 +92,16 @@ uint32 get_address()
     uint32 result;
     
     bytes[0] = UART_PORT_UartGetChar();
-    sprintf(buffer,"Received symbol: %lx  \r\n",bytes[0]);
-    UART_PORT_UartPutString(buffer);
+    //sprintf(buffer,"Received symbol: %lx  \r\n",bytes[0]);
+    //UART_PORT_UartPutString(buffer);
     
     bytes[1] = UART_PORT_UartGetChar();
-    sprintf(buffer,"Received symbol: %lx  \r\n",bytes[1]);
-    UART_PORT_UartPutString(buffer);
+    //sprintf(buffer,"Received symbol: %lx  \r\n",bytes[1]);
+    //UART_PORT_UartPutString(buffer);
     
     result = strtoul(bytes,NULL,16);
-    sprintf(buffer,"Converted value: %lu  \r\n",result);
-    UART_PORT_UartPutString(buffer); 
+    //sprintf(buffer,"Converted value: %lu  \r\n",result);
+    //UART_PORT_UartPutString(buffer); 
     return result;//(byte_1*16 + byte_2);
 }
 
@@ -184,8 +185,22 @@ int main(void)
             }
             else
             {
-                data_1 = I2C_PORT_I2CMasterReadBuf(address,&data_1,1,0);
-                sprintf(buffer,"Received data: %x \r\n",data_1);
+                data_1 = get_data();
+                sprintf(buffer,"Start I2C address transfer \r\n");
+                UART_PORT_UartPutString(buffer);
+                err =I2C_PORT_I2CMasterSendStart(address,0,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterWriteByte(data_1,100);
+                print_error_status(err);
+                sprintf(buffer,"Start I2C data reading transfer \r\n");
+                UART_PORT_UartPutString(buffer);
+                err = I2C_PORT_I2CMasterSendRestart(address,1,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterReadByte(I2C_PORT_I2C_ACK_DATA,&data_2,100);
+                print_error_status(err);
+                err = I2C_PORT_I2CMasterSendStop(1000);
+                print_error_status(err);
+                sprintf(buffer,"Received data: %x \r\n",data_2);
                 UART_PORT_UartPutString(buffer);
             }        
         
