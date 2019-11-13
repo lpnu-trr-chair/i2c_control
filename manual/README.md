@@ -5,7 +5,7 @@
 ## Завантаження вихідних кодів ##
 Вихідні коди проекту зберігаються на сайті github за адресою [https://github.com/lpnu-trr-chair/i2c_control.cydsn](https://github.com/lpnu-trr-chair/i2c_control.cydsn). 
 
-![user-manual-1](pic\user-manual-1.jpg)
+![user-manual-1](pic/user-manual-1.jpg)
 
 Завантажити вихідні коди можна двома способами.
 
@@ -20,19 +20,19 @@
 ## Компіляція та прошивання ##
 Прошивка програмного модуля здійснюється за допомогою середовища розробки Cypress PSoC Creator 4.2. Встановити його можна, завантаживши інсталятор із сайту  https://www.cypress.com/products/psoc-creator-integrated-design-environment-ide . Перед прошивкою програмний модуль необхідно скомпілювати.  Для цього відкриваємо файл проекту та  вибираємо в меню програми команди "Build" -> "Build i2c_control"
 
-![user-manual-2](pic\user-manual-2.jpg)
+![user-manual-2](pic/user-manual-2.jpg)
 
 У вікні "Output" з'являються логи компіляції та повідомлення про її успішне завершення
 
-![user-manual-3](pic\user-manual-3.jpg)
+![user-manual-3](pic/user-manual-3.jpg)
 
 Для прошивання програмного модуля під'єднуємо плату PSoC4 за допомогою USB кабелю до комп'ютера та вибираємо в меню "Debug" -> "Select target and program..." або натискаємо в панелі інструментів відповідну іконку
 
-![user-manual-4](pic\user-manual-4.jpg)
+![user-manual-4](pic/user-manual-4.jpg)
 
 Якщо процес прошивки завершився без проблем, то у вікні "Output" з'явиться повідомлення
 
-![user-manual-5](pic\user-manual-5.jpg)
+![user-manual-5](pic/user-manual-5.jpg)
 
 
 
@@ -53,7 +53,7 @@
 
 Управління здійснюється за допомогою команд, що передаються через інтерфейс UART. Кожна команда починається з букви, яка кодує операцію () Наступні два шістнадцяткові символи кодують адреси мікросхем цифрових резисторів. Наступні два шістнадцяткові символи - номер АЦП на кристалі мікросхеми. Останні два шістнадцяткові символи - положення регулятора цифрового резистора. Деталі - на рисунку нижче.
 
-![user-manual-9](pic\user-manual-9.jpg)
+![user-manual-9](pic/user-manual-9.jpg)
 
 
 
@@ -66,7 +66,7 @@
 
 Описані вище команди передаються на плату управління за допомогою спеціалізованих програм-терміналів. Найбільш зручними в користування є Docklight (https://docklight.de/)  та Realterm (https://realterm.sourceforge.io/). Перед початком роботи із терміналом необхідно визначити до якого послідовного порта під'єднаний вхідний UART PSoC 4. Для цього відкриваємо "Диспетчер пристроїв", шукаємо у ньому розділ "Порти (COM та LPT)", а в середині розділу - пристрій із назвою "KitProg USB-UART". Біля нього у дужках вказаний відповідний порт - у нашому випадку COM7
 
-![user-manual-8](pic\user-manual-8.jpg)
+![user-manual-8](pic/user-manual-8.jpg)
 
 Наступний етап - налаштування параметрів роботи відповідного послідовного порта в програмі терміналу. 
 
@@ -78,13 +78,13 @@
 
 Контроль парності - 0
 
-![user-manual-10](pic\user-manual-10.jpg)
+![user-manual-10](pic/user-manual-10.jpg)
 
 Docklight дозволяє попередньо записати команди для наступної передачі
 
-![user-manual-11](pic\user-manual-11.jpg)
+![user-manual-11](pic/user-manual-11.jpg)
 
-![user-manual-12](C:\abench\code\workspace_lpnu_trr_chair\i2c_control.cydsn\manual\pic\user-manual-12.jpg)
+![user-manual-12](pic/user-manual-12.jpg)
 
 Перед передачею даних необхідно відкрити порт передачі даних, натиснувши кнопку "Start Communication" чи клавішу F5. 
 
