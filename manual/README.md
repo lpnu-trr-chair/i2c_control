@@ -47,7 +47,7 @@
 | + 5 B         |       |                  | З'єднати із землею БЖ       |
 | GND           |       |                  | З'єднати із +5В БЖ          |
 
-![user-manual-6](pic\user-manual-6.jpg)
+![user-manual-6](pic/user-manual-6.jpg)
 
 ## 2Команди управління ##
 
